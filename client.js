@@ -1,12 +1,15 @@
 const net = require('net');
+//const { IP } = require('./constants');
+const { IP: host, PORT: port } = require('./constants');
 
 /**
  * Establishes connection with the game server
  */
 const connect = function() {
+  
   const conn = net.createConnection({ 
-    host: '135.23.222.131',
-    port: 50542
+    host,
+    port
   });
   
   // interpret incoming data as text
@@ -17,7 +20,36 @@ const connect = function() {
     console.log('successfully connected to game server');
     //write name on snake
     conn.write('Name: DJB');
-    // //move up unless facing down
+    
+  })
+
+  conn.on("data", (data) => {
+    console.log(data);
+    
+  })
+  return conn;
+}
+
+module.exports = {connect};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //move up unless facing down
     // setTimeout(() => {
     //   conn.write('Move: up');
     // }, 100);
@@ -33,13 +65,3 @@ const connect = function() {
     // setInterval(() => {
     //   conn.write('Move: right');
     // }, 100);
-  })
-
-  conn.on("data", (data) => {
-    console.log(data);
-    
-  })
-  return conn;
-}
-
-module.exports = connect;
